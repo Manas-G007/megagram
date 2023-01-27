@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+    <title>Megagram - Login</title>
+</head>
+<style>
+    body{
+        background: url('https://picsum.photos/1980/1300?sea');
+    }
+    @media screen and (max-width:500px) {
+        body{
+            background: black;
+        }
+    }
+</style>
+<body>
+    <div class="c1">
+        <form action="" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <br>
+            <h1>Megagram<br><br></h1>
+            <div>
+                <style>
+                    h4{
+                        font-weight: 500;
+                        letter-spacing: 1px;
+                        color:red;
+                    }
+                    @media screen and (max-width:500px){
+                        h4{
+                            color:red;
+                        }
+                    }
+                </style>
+                {% for message in messages%}
+                <h4>{{message}}</h4>
+                {% endfor %}
+            </div>
+            <div class="set">
+                <input type="text" name="username" placeholder="Username"> 
+                <br><br>
+                <input id="password" type="password" name="password" placeholder="Password">
+                <img id="shower" src="{% static 'img/eye-open.png' %}" alt="" width="25px"><br>
+                <x><a href="">forgot password ?</a></x> 
+                <br>
+                <input id="submitBtn" type="submit" value="Login">
+            </div>  
+            <br>
+            <p><a href="signup">New to this? Create an account</a><br>
+            <a href="">Terms and Conditions | Private Policy</a></p>
+        </form>
+    </div>
+    <script>
+        const showPass = document.getElementById('shower');
+        const password = document.getElementById('password');
+        const password2 = document.getElementById('password2');
+
+        showPass.addEventListener("click",fliper);
+
+        let check=true;
+        function fliper(){
+            if(check){
+                check=false;
+                password.type="text";
+                showPass.src="{% static 'img/eye-close.png' %}";
+                }else{
+                check=true;
+                password.type="password";
+                showPass.src="{% static 'img/eye-open.png' %}";
+            }
+        };
+    </script>
+</body>
+</html>

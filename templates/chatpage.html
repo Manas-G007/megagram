@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megagram - chats</title>
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+</head>
+<body>
+    <div onclick="window.location.href='/'" class="x">Megagram</div>
+    <div class="chatCont">
+        <div class="userSidebar">
+            <p class="chatWith">chat with</p>
+            <div class="usernames">
+                {% if followerLen == 0 %}
+                    <p style="padding:10px;color:#0040ff;">follow someone to chat with </p>
+                {% else %}
+                    {% for chat in chat_list %}
+                    <div class="userCard">
+                        <img src="{{chat.profileimg.url}}" alt="">
+                        <!-- onclick='window.location.href="/load-mess?reciever={{chat.user}}"' -->
+                        <p class="chatUser" my="{{chat.profileimg.url}}" onclick="window.location.href='/chat/{{chat.user}}'">{{chat.user}}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="mainChat">
+            <div class="chatTop">
+                {% if chat_with_user == None or followerLen == 0 %}
+                <img src="{% static 'img/dp.png' %}" alt="" srcset="" class="topImg">
+                <div class="fits">
+                    <p class="userName">pick someone to chat</p>
+                    <p class="status">online</p>
+                </div>
+                {% else %}
+                <img src="{{chat_with_user.profileimg.url}}" alt="" srcset="" class="topImg">
+                <div class="fits">
+                    <p class="userName">{{chat_with_user.user}}</p>
+                    <p class="status">online</p>
+                </div>
+                {% endif %}
+                <p class="moreFuture">⁝</p>
+            </div>
+            <div class="showChat">
+                <a href="#bottom" id="boT">▽</a>
+                <div class="chatHere">
+                    {% if chatLen == 0 %}
+                    <br><br><br><br><br>
+                    <center>
+                    <h2 style="color:#3992ff">this place is so empty</h2>
+                    <img src="{% static 'img/chatWith.png' %}" alt="" width="150px"></center>
+                    {% else %}
+                        {% for mess in chat_data %}
+                            {% if mess.sender == current_user %}
+                            <div class="r">
+                                <div class="Right">
+                                    <p class="eleM">{{mess.message}}</p>
+                                    <p class="time">{{mess.time}}</p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="chatMes">
+                                <p class="eleM">{{mess.message}}</p>
+                                <p class="time">{{mess.time}}</p>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <!-- <div class="chatMes">
+                        <p class="eleM">Lorem ipsum dolor sit amet, elit.</p>
+                        <p class="time">10:10</p>
+                    </div>
+                    <div class="r">
+                        <div class="Right">
+                            <p class="eleM">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p class="time">10:10</p>
+                        </div>
+                    </div> -->
+                    
+                </div>
+                <div id="bottom"></div>
+            </div>
+            <form action="/saveChat" method="POST" >
+                {% csrf_token %}
+                <div class="formChat" >                        
+                        <input type="text" name="message" class="message" placeholder="Message ...">
+                        <input type="text" name="reciever" id="recieverName" hidden="hidden" value="{{chat_with_user}}">
+                        <input type="text" name="timerr" id="timerr" hidden="hidden">
+                        {% if chat_with_user == None or followerLen == 0 %}
+                            <button type="submit" class="send" disabled>send</button>
+                        {% else %}
+                            <button type="submit" class="send">send</button>
+                        {% endif %}
+                        
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>

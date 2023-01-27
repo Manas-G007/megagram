@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+    <title>Megagram - feeds</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav">
+            <x onclick="window.location.href='/'">Megagram</x>
+        </div>
+        <form action="/search" method="POST" style="background:none;border:none;margin: 0;padding:0">
+            {% csrf_token %}
+            <div class="navSearch">
+                <button type="submit" style="cursor:pointer;
+                background:none;
+                border:none;
+                font-family:inherit;
+                font-size: larger;
+                margin: 0;
+                padding:0.5% 2%;
+                display:block;
+                margin-left: auto;
+                margin-right: 0;">
+                    <img src="{% static 'img/search.png' %}" alt="" class="i1">
+                </button>
+                <input type="search" name="username" id="" placeholder="Search...">
+                <img title="{{user_profile.user}}" src="{{user_profile.profileimg.url}}" onclick="window.location.href='profile/{{user_profile.user.username}}'" alt="" class="i2" style="
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius:  50%;
+                    cursor: pointer;">
+            </div>
+        </form>
+        <div class="navele">
+            <img onclick="window.location.href='/chat/None'" src="{% static 'img/chat.png' %}" alt="" class="anin">
+        </div>
+        <div class="navele">
+            <img onclick="window.location.href='/explore'" src="{% static 'img/explore.png' %}" alt="" class="ani">
+        </div>
+        <div class="navele">
+            <img src="{% static 'img/settings.png' %}" alt="" id="setting" class="ani">
+        </div>               
+    </div>
+    <br><br><br>
+    <div class="dropper">
+        <div class="dropele" onclick="window.location.href='/settings'">Account Setting</div>
+        <div class="dropele" onclick="window.location.href='/logout'">logout</div>
+    </div>
+    
+    <div class="cxx">
+        {% if no_search_result == 0 %}
+        <h2>
+            No Search result
+        </h2>
+        {% elif no_search_result == 1 %}
+        <h2>
+            Search result 1
+        </h2>
+        {% else %}
+        <h2>
+            Search results {{no_search_result}}
+        </h2>
+        {% endif %}
+        
+        {% for username_profile in username_profile_list %}
+        <div class="cxx1">
+            <img src="{{username_profile.profileimg.url}}" alt="" style="object-fit:cover;object-position: center;height:50px;">
+            <div class="cxxinfo">
+                <div id="hu" onclick="window.location.href='/profile/{{username_profile.user}}'">{{username_profile.user}}</div>
+                <p>{{username_profile.bio}}</p>
+            </div>
+        </div> 
+        {% endfor %}   
+    </div>
+
+    <div class="botbar">
+        <div class="botele">
+            <img onclick='window.location.href="/"' src="{% static 'img/homeimg.png' %}" alt="">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/chat/None"' src="{% static 'img/chat.png' %}" alt="" style="width: 40px;height: 40px;">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/profile/{{user_profile.user}}"' src="{{user_profile.profileimg.url}}" id="i3" >
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/explore"' src="{% static 'img/explore.png' %}" alt="" srcset="">
+        </div>
+        <div class="botele">
+            <img src="{% static 'img/settings.png' %}" alt="" srcset="" id="settingBtn">
+        </div>
+    </div>
+    <script >
+        const setting=document.getElementById('setting');
+        const set=document.getElementById('settingBtn');
+        const dropper=document.querySelector('.dropper');
+        let check1=true;
+        set.addEventListener("click",()=>{
+        if(check1){
+            dropper.style.display="block";
+            check1=false;
+        }else{
+            dropper.style.display="none";
+            check1=true;
+        }
+        });
+        setting.addEventListener("click",()=>{
+        if(check1){
+            dropper.style.display="block";
+            check1=false;
+        }else{
+            dropper.style.display="none";
+            check1=true;
+        }
+        });
+    </script>
+</body>
+</html>

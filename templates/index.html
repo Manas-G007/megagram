@@ -1,0 +1,244 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+    <title>Megagram - feeds</title>
+</head>
+<body>   
+    <div class="navbar">
+        <div class="nav">
+            <x onclick="window.location.href='/'">Megagram</x>
+        </div>
+        <form action="/search" method="POST" style="background:none;border:none;margin: 0;padding:0">
+            {% csrf_token %}
+            <div class="navSearch">
+                <button type="submit" style="cursor:pointer;
+                background:none;
+                border:none;
+                font-family:inherit;
+                font-size: larger;
+                margin: 0;
+                padding:0.5% 2%;
+                display:block;
+                margin-left: auto;
+                margin-right: 0;">
+                    <img src="{% static 'img/search.png' %}" alt="" class="i1">
+                </button>
+                <input type="search" name="username" id="" placeholder="Search...">
+                <img title="{{user_profile.user}}" src="{{user_profile.profileimg.url}}" onclick="window.location.href='profile/{{user_profile.user.username}}'" alt="" class="i2" style="
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius:  50%;
+                    cursor: pointer;">
+            </div>
+        </form>
+        <div class="navele">
+            <img onclick="window.location.href='/chat/None'" src="{% static 'img/chat.png' %}" alt="" class="anin">
+        </div>
+        <div class="navele">
+            <img onclick="window.location.href='explore'" src="{% static 'img/explore.png' %}" alt="" class="ani">
+        </div>
+        <div class="navele">
+            <img src="{% static 'img/settings.png' %}" alt="" id="setting" class="ani">
+        </div>               
+    </div>
+    <br><br><br>
+    
+    <div class="dropper">
+        <div class="dropele">
+            <style>
+                .fform{
+                    display: grid;
+                    grid-template-columns: 0.8fr 2fr;
+                    background: none;
+                    padding: 0;
+                    margin: 0;
+                }
+                .fform label{
+                    font-size: large;
+                    cursor: pointer;
+                    background: none;
+                    padding: 0;
+                    margin: 0;
+                }
+            </style>
+            <form class="fform" action="upload" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="poster">
+                    <img src="{% static 'img/plusadd.png' %}" style="width: 25px;" alt="" srcset="" id="upB">
+                </label>
+                <input type="file" name="post" id="poster" style="display:none">
+                <label>◀ Post Here</label>
+                <label for="upload" id="upl" style="display:none">Upload</label>
+                <input type="submit" value="Upload" id="upload" style="display:none">
+            </form>
+            <script>
+                const upBtn=document.getElementById('upB');
+                const mBtn=document.getElementById('upl');
+                let alpha=true;
+                upBtn.addEventListener('click',()=>{
+                    if(alpha){
+                        mBtn.style.display='block';
+                        alpha=false;
+                    }else{
+                        mBtn.style.display='none';
+                        alpha=true;
+                    }
+                });
+            </script>
+        </div>
+        <div class="dropele" onclick="window.location.href='settings'">Account Setting</div>
+        <div class="dropele" onclick="window.location.href='logout'">logout</div>
+    </div>
+
+    <div class="Cont">
+        <div class="sug">
+            {% if suggest_len == 0 %}
+            <div class="scc">
+                <h3>No Suggestion for you</h3>
+                <p class="crossCont">✕</p>
+            </div>
+            {% else %}
+            <div class="scc">
+                <h3>Suggestion for you</h3>
+                <p class="crossCont">✕</p>
+            </div>
+            {% endif %}
+            <!-- slicing for limiting the for loop -->
+            {% for user_suggest in username_profile_list|slice:":4" %}
+            <div class="userSug">
+                <img src="{{user_suggest.profileimg.url}}" style="height:30px;width:40px;object-fit: cover;object-position: center;">
+                <p>{{user_suggest.user}}</p>
+                <button onclick="window.location.href='/profile/{{user_suggest.user}}'">Go</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="sL">
+            <div class="crs">
+                <p class="crossBtn">✕</p>
+            </div>
+            <div class="cScroll">
+                {% for user_suggest in username_profile_list|slice:":6" %}
+                <div class="cEle">
+                    <img src="{{user_suggest.profileimg.url}}" alt="">
+                    <p>{{user_suggest.user}}</p>
+                    <button onclick="window.location.href='profile/{{user_suggest.user}}'">see profile</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="post">
+            {% if feed_len == 0 %}
+            <center>
+                <h1 style="color:#00B2FF">This place is so empty add some post</h1>
+                <img src="{% static 'img/soEmpty.png' %}" alt="" class="what" width="80%">
+            </center>
+            {% endif %}
+            {% for post in posts %}
+            <div class="card">
+               <div class="postHead">
+                    <img src="{{post.userPro.url}}" alt="" class="cardProD" >
+                    <p onclick="window.location.href='profile/{{post.user}}'" style="cursor:pointer">{{post.user}}</p>
+                    <a href="{{post.userPro.url}}" download="">
+                        <img src="{% static 'img/downloadLogo.png' %}" alt="" srcset="" class="downLoadD">
+                    </a>
+               </div> 
+               <div class="postMid">
+                    <img src="{{post.image.url}}" alt="">
+               </div>
+                <div class="postEnd">
+                    {% if post.no_of_likes == 0 %}
+                        <p>No Likes</p>
+                    {% elif post.no_of_likes == 1 %}    
+                        <p>1 Like only</p>
+                    {% else %} 
+                        <p>liked by {{post.no_of_likes}}</p>
+                    {% endif %}    
+                    <div class="postEndIn">
+                        <img src="{% static 'img/likeBtn.png' %}" onclick='window.location.href="/like-post?post_id={{post.id}}"'>
+                        <img src="{% static 'img/share.png' %}" >
+                        <img src="{% static 'img/comment.png' %}" onclick='window.location.href="/share/{{post.id}}"'>
+                    </div>
+                </div>            
+            </div> 
+            {% endfor %}           
+        </div>
+    </div>
+    
+    <div class="botbar">
+        <div class="botele">
+            <img onclick='window.location.href="/"' src="{% static 'img/homeimg.png' %}" alt="">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/chat/None"' src="{% static 'img/chat.png' %}" alt="" style="width: 40px;height: 40px;">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/profile/{{user_profile.user}}"' src="{{user_profile.profileimg.url}}" id="i3" >
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/explore"' src="{% static 'img/explore.png' %}" alt="" srcset="">
+        </div>
+        <div class="botele">
+            <img src="{% static 'img/settings.png' %}" alt="" srcset="" id="settingBtn">
+        </div>
+    </div>
+    <script >
+        const setting=document.getElementById('setting');
+        const set=document.getElementById('settingBtn');
+        const dropper=document.querySelector('.dropper');
+        let check1=true;
+        set.addEventListener("click",()=>{
+        if(check1){
+            dropper.style.display="block";
+            check1=false;
+        }else{
+            dropper.style.display="none";
+            check1=true;
+        }
+        });
+        setting.addEventListener("click",()=>{
+        if(check1){
+            dropper.style.display="block";
+            check1=false;
+        }else{
+            dropper.style.display="none";
+            check1=true;
+        }
+        });
+
+        const sL=document.querySelector('.sL');
+        const crossBtn=document.querySelector('.crossBtn');
+
+        crossBtn.addEventListener('click',()=>{
+            sL.innerHTML=''
+        })
+
+        const removeSL=document.querySelector('.crossCont');
+        const sug=document.querySelector('.sug');
+        const main=document.querySelector('.Cont');
+        const cardd=document.querySelectorAll('.card');
+        const postt=document.querySelector('.post');
+        const what=document.querySelector('.what');
+        removeSL.addEventListener('click',()=>{
+            sug.style.display='none';
+            main.style.gridTemplateColumns='1fr';
+            main.style.width='100%';
+            cardd.forEach(e => {
+                e.style.display='block';
+                e.style.margin='20px auto';
+            });
+            postt.style.margin='0';
+            what.style.width='50%';
+        })
+    </script>
+</body>
+</html>

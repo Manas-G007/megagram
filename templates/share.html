@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+    <title>Megagram-Profile⫸{{user_profile.user.username}}</title>
+    <style>
+        .shareCont{
+            display: grid;
+            margin: 0 auto;
+            width: 600px;
+            border:none;
+            border-radius: 20px 0 0 0;
+            margin-top: 20px;
+            background: linear-gradient(#56FDDF,#00F0FF);
+        }
+        .shareTop{
+            display: grid;
+            grid-template-columns: 10% 82% 8%;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            margin: 0;
+        }
+        .shareImg{
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .shareTop p{
+            cursor: pointer;
+            margin: 0;
+            margin-top: 9px;
+            text-align: left;
+            font-size: large;
+        }
+        .downImg{
+            cursor: pointer;
+            margin: 0;
+            margin-top: 10px;
+            width: 25px;
+            height: 25px;
+        }
+        .shareMid{
+            width: 100%;
+            height: 500px;
+        }
+        .shareMid img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .shareEnd{
+            width: 100%;
+            padding: 15px 10px;
+            display: grid;
+            grid-template-columns: 75% 25%;
+        }
+        .shareOp{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+        }
+        .shareLikeInfo{
+            font-size:larger;
+        }
+        .shareOp img{
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+        @media screen and (max-width:500px){
+            .shareCont{
+                width: 100%;
+                margin: 0;
+                margin-top: 10px;
+            }
+            .shareTop{
+                display: grid;
+                grid-template-columns: 15% 75% 10%;
+                width: 100%;
+                text-align: center; 
+                padding: 0;
+                margin: 0;
+            }
+            .shareTop p{
+                margin-top: 15px;
+            }
+            .shareEnd{
+                margin: 0;
+                padding: 5px 0;
+                grid-template-columns: 70% 30%;
+            }
+            .shareMid{
+                height: 300px;
+            }
+            .shareMid img{
+                height: 300px;
+                width: 100%;
+                object-fit: cover;
+            }
+            .shareImg{
+                margin: 5px;
+            }
+            .downImg{
+                margin-top: 15px;
+                width: 20px;
+                height: 20px;
+            }
+            .shareLikeInfo{
+                margin: 5px;
+            }
+            .shareOp{
+                padding: 5px;
+            }
+            .shareOp img{
+                width: 22px;
+                height: 22px;
+            }
+        }
+        .commentArea{
+            display:grid;
+            margin: 0 auto;
+            margin-bottom: 50px;
+            width: 600px;
+            background: linear-gradient(#00F0FF,rgb(220, 245, 255));
+        }
+        .commentSet{
+            display: grid;
+            grid-template-columns: 80% 20%;
+            padding: 10px;
+        }
+        #plzSet{
+            border: none;
+            border-radius: 0;
+            outline:none;
+            font-family: inherit;
+            font-size: larger;
+            padding: 5px;
+            background: transparent;
+            border-bottom: solid 1px black;
+        }
+        .commentSet button{
+            border: none;
+            outline:none;
+            font-family: inherit;
+            font-size: larger;
+            border-radius: 0 20px 0 20px;
+            background: black;
+            color:white;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+        }
+        .commentSet button:hover{
+            background: rgb(255, 255, 255);
+            color: black;
+        }
+        .commentEle{
+            width: 100%;
+            margin: 10px 0;
+        }
+        .comLoadSet{
+            display: grid;
+            grid-template-columns: 10% 90%;
+            padding: 5px 10px;
+        }
+        .comLoadSet img{
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .comLoadSet p{
+            margin: 0;
+            margin-top: 6px;
+            font-size: large;
+            cursor: pointer;
+        }
+        .actualComment{
+            width: fit-content;
+            padding: 5px;
+            padding-left: 10px;
+            margin: 0;
+        }
+        @media screen and (max-width:500px){
+            .commentArea{
+                width: 100%;
+                background: linear-gradient(#00F0FF,rgb(0, 0, 0));
+            }
+            .commentSet{
+                grid-template-columns: 75% 25%;
+            }
+            .comLoadSet{
+                grid-template-columns: 15% 85%;
+                color: white;
+            }
+            .actualComment,::placeholder{
+                color: white;
+            }
+            #plzSet{
+                color: white;
+                border-bottom: solid 1.5px rgb(255, 255, 255);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fuldis">
+        <button class="closX">✕</button>
+        <img class="ppImg" src="{% static 'img/1x.jpg' %}" alt=""style="height:300px;object-fit:cover">
+    </div>
+    <div class="navbar">
+        <div class="nav">
+            <x onclick="window.location.href='/'">Megagram</x>
+        </div>
+        <form action="/search" method="POST" style="background:none;border:none;margin: 0;padding:0">
+            {% csrf_token %}
+            <div class="navSearch">
+                <button type="submit" style="cursor:pointer;
+                background:none;
+                border:none;
+                font-family:inherit;
+                font-size: larger;
+                margin: 0;
+                padding:0.5% 2%;
+                display:block;
+                margin-left: auto;
+                margin-right: 0;">
+                    <img src="{% static 'img/search.png' %}" alt="" class="i1">
+                </button>
+                <input type="search" name="username" id="" placeholder="Search...">
+                <img title="{{user_profile.user}}" src="{{user_profile.profileimg.url}}" onclick="window.location.href='profile/{{user_profile.user.username}}'" alt="" class="i2" style="
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius:  50%;
+                    cursor: pointer;">
+            </div>
+        </form>
+        <div class="navele">
+            <img onclick="window.location.href='/chat/None'" src="{% static 'img/chat.png' %}" alt="" class="anin">
+        </div>
+        <div class="navele">
+            <img onclick="window.location.href='/explore'" src="{% static 'img/explore.png' %}" alt="" class="ani">
+        </div>
+        <div class="navele">
+            <img src="{% static 'img/settings.png' %}" alt="" id="setting" class="ani">
+        </div>               
+    </div>
+    <br><br><br>
+    
+    <div class="dropper">
+        <div class="dropele" onclick="window.location.href='/settings'">Account Setting</div>
+        <div class="dropele" onclick="window.location.href='/logout'">logout</div>
+    </div>
+
+    <div class="shareCont">
+        <div class="shareTop">
+            <img src="{{postObj.userPro.url}}" alt="" class="shareImg">
+            <p>{{postObj.user}}</p>
+            <img src="{% static 'img/downloadLogo.png'%}" alt="" class="downImg">
+        </div>
+        <div class="shareMid">
+            <img src="{{postObj.image.url}}" alt="">
+        </div>
+        <div class="shareEnd">
+            {% if postObj.no_of_likes == 0 %}
+            <div class="shareLikeInfo">No Likes</div>
+            {% elif postObj.no_of_likes == 1 %} 
+            <div class="shareLikeInfo">1 Like only</div>   
+            {% else %} 
+            <div class="shareLikeInfo">liked by {{postObj.no_of_likes}}</div>
+            {% endif %}  
+            <div class="shareOp">
+                <img src="{% static 'img/likeBtn.png'%}" onclick='window.location.href="/like-post?post_id={{postObj.id}}"'>
+                <img src="{% static 'img/share.png'%}" alt="">
+                <img src="{% static 'img/comment.png'%}" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="commentArea">
+        <form action="/comment" method="POST" style="background: none;
+        border:none;
+        border-radius: 0;
+        padding:0;
+        line-height: 1;
+        width: 100%;">
+        {% csrf_token %}
+        <div class="commentForm">
+            <input type="text" name="username" value="{{user_profile.user}}" hidden="hidden">
+            <input type="text" name="post_id" value="{{postObj.id}}" hidden="hidden">
+            <div class="commentSet">
+                <input type="text" name="comment" placeholder="add a comment ..." id="plzSet">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+        </form>
+        <div class="commentLoad">
+            {% for com in comment %}
+            <div class="commentEle">
+                <div class="comLoadSet">
+                    <img src="{{com.dummyPro.url}}" alt="">
+                    <p>{{com.username}}</p>
+                </div>
+                <p class="actualComment">{{com.comment}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="botbar">
+        <div class="botele">
+            <img onclick='window.location.href="/"' src="{% static 'img/homeimg.png' %}" alt="">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/chat/None"' src="{% static 'img/chat.png' %}" alt="" style="width: 40px;height: 40px;">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/profile/{{user_profile.user}}"' src="{{user_profile.profileimg.url}}" id="i3" >
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/explore"' src="{% static 'img/explore.png' %}" alt="" srcset="">
+        </div>
+        <div class="botele">
+            <img src="{% static 'img/settings.png' %}" alt="" srcset="" id="settingBtn">
+        </div>
+    </div>
+    <script src="{% static 'js/fuldis.js' %}">
+    </script>
+</body>
+</html>

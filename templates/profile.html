@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Iceberg' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/savicon.png' %}" type="image/x-icon">
+    <title>Megagram-Profile⫸{{user_profile.user.username}}</title>
+</head>
+<body>
+    <div class="fuldis">
+        <button class="closX">✕</button>
+        <img class="ppImg" src="{% static 'img/1x.jpg' %}" alt=""style="height:300px;object-fit:cover">
+    </div>
+    <div class="navbar">
+        <div class="nav">
+            <x onclick="window.location.href='/'">Megagram</x>
+        </div>
+        <form action="/search" method="POST" style="background:none;border:none;margin: 0;padding:0">
+            {% csrf_token %}
+            <div class="navSearch">
+                <button type="submit" style="cursor:pointer;
+                background:none;
+                border:none;
+                font-family:inherit;
+                font-size: larger;
+                margin: 0;
+                padding:0.5% 2%;
+                display:block;
+                margin-left: auto;
+                margin-right: 0;">
+                    <img src="{% static 'img/search.png' %}" alt="" class="i1">
+                </button>
+                <input type="search" name="username" id="" placeholder="Search...">
+                <img title="{{loggedObj.user}}" src="{{loggedObj.profileimg.url}}" onclick="window.location.href='/profile/{{loggedObj.user.username}}'" alt="" class="i2" style="
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius:  50%;
+                    cursor: pointer;">
+            </div>
+        </form>
+        <div class="navele">
+            <img onclick="window.location.href='/chat/None'" src="{% static 'img/chat.png' %}" alt="" class="anin">
+        </div>
+        <div class="navele">
+            <img onclick="window.location.href='/explore'" src="{% static 'img/explore.png' %}" alt="" class="ani">
+        </div>
+        <div class="navele">
+            <img src="{% static 'img/settings.png' %}" alt="" id="setting" class="ani">
+        </div>               
+    </div>
+    <br><br><br>
+    
+    <div class="dropper">
+        <div class="dropele" onclick="window.location.href='/settings'">Account Setting</div>
+        <div class="dropele" onclick="window.location.href='/logout'">logout</div>
+    </div>
+    
+    <div class="topinfo">
+        <div class="backg" >
+            <div class="ename"></div>
+            <div class="uname">
+                <p>{{user_profile.user.username}}</p>
+            </div>
+            <img src="{{user_profile.profileimg.url}}" alt="" style="object-fit:cover">
+        </div>
+        <div class="statinfo">
+            {% if user_post_length == 0 %}
+                <div class="sele">No Post</div>
+            {% elif user_post_length == 1 %}
+                <div class="sele">Post  1</div>
+            {% else %}
+                <div class="sele">Posts  {{user_post_length}}</div>
+            {% endif %}
+            {% if user_followers == 0 %}
+                <div class="sele">No Follower</div>
+            {% elif user_followers == 1 %}
+                <div class="sele">Follower 1</div>
+            {% else %}
+                <div class="sele">Followers {{user_followers}}</div>
+            {% endif %}
+            {% if user_following == 0 %}
+                <div class="sele">No Following</div>
+            {% else %}
+                <div class="sele">Following {{user_following}}</div>
+            {% endif %}
+        </div>
+        <div class="gridNavE1">
+            <p>{{user_profile.bio}}</p>
+        </div>
+    </div>
+
+    <div class="postGrid">
+        <div class="postEle">
+            <form action="/follow" method="POST" style="background:none;border:none;display: block;margin: 0;padding:0">
+                {% csrf_token %}
+                <input type="hidden" value="{{user.username}}" name="follower">
+                <input type="hidden" value="{{user_object.username}}" name="user">
+                {% if user_object.username != user.username %}
+                <button id="fBtn" type="submit" >{{button_text}}</button>
+                {% else %}
+                <button id="fBtn" type="button" onclick="window.location.href='/settings'"  >Account Settings</button>
+                {% endif %}
+            </form>
+        </div>
+        <div class="backg1">
+            <div class="postle">
+                <div class="gridNavEle">
+                    <img src="{% static 'img/post.png' %}" alt="" srcset="">
+                    <p>Post</p>
+                </div>
+                <div class="gridNavEle">
+                    <img src="{% static 'img/saved.png' %}" alt="" srcset="">
+                    <p>Saved</p>
+                </div>
+                <div class="gridNavEle">
+                    <img src="{% static 'img/tagged.png' %}" alt="" srcset="">
+                    <p>Tagged</p>
+                </div>
+                <div class="gridNavE">
+                    <p>{{user_profile.bio}}</p>
+                </div>
+            </div>
+            <div class="mainGrid">
+                {% for post in user_posts %}
+                <div class="gridFix">
+                    <img class="pImg" src="{{post.image.url}}" alt="" >
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="botbar">
+        <div class="botele">
+            <img onclick='window.location.href="/"' src="{% static 'img/homeimg.png' %}" alt="">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/chat/None"' src="{% static 'img/chat.png' %}" alt="" style="width: 40px;height: 40px;">
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/profile/{{loggedObj.user}}"' src="{{loggedObj.profileimg.url}}" id="i3" >
+        </div>
+        <div class="botele">
+            <img onclick='window.location.href="/explore"' src="{% static 'img/explore.png' %}" alt="" srcset="">
+        </div>
+        <div class="botele">
+            <img src="{% static 'img/settings.png' %}" alt="" srcset="" id="settingBtn">
+        </div>
+    </div>
+    <script src="{% static 'js/fuldis.js' %}">
+    </script>
+</body>
+</html>

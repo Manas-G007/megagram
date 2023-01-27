@@ -1,0 +1,218 @@
+body{
+    text-transform: capitalize;
+    font-family: 'Iceberg';
+    scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+    width: 7px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffffff; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(0, 247, 255); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #0085FF; 
+}
+.chatCont{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    border:none;
+    border-radius: 45px 0 45px 0;
+    width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(to bottom right,#5096FF,#70FFFF);
+}
+.userSidebar{
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 40px 0 0 0;
+    background: white;
+}
+.usernames{
+    overflow: auto;
+    height: 600px;
+}
+.chatWith{
+    margin: 0;
+    padding-left: 10px;
+    font-size: x-large;
+    color:#0085FF;
+}
+.userCard{
+    display: grid;
+    grid-template-columns: 25% 75%;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    border-radius: 30px 0 30px 0;
+    background: linear-gradient(to bottom right,#5096FF,#70FFFF);
+}
+.userCard img,.chatTop img,.topImg{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0;
+}
+.userCard p{
+    cursor: pointer;
+    font-size: larger;
+    margin:0;
+    margin-top: 15px;
+    color: white;
+}
+.mainChat{
+    margin: 10px;
+    border:none;
+    border-radius: 0 0 40px;
+    background: white;
+}
+.chatTop{
+    display:grid;
+    grid-template-columns: 15% 80% 5%;
+    padding: 5px;
+    background: linear-gradient(to bottom right,#0066ff,#06ffff);
+    color: white;
+}
+
+.fits{
+    padding-top: 7px;
+}
+.userName,.status{
+    margin: 0;
+    font-size: medium;
+}
+.moreFuture{
+    margin: 0;
+    margin-top: 10px;
+    font-size:x-large;
+}
+.status{
+    font-size: small;
+}
+.showChat{
+    margin: 10px;
+    overflow: auto;
+    height: 530px;
+}
+.chatMes,.Right{
+    background: linear-gradient(to bottom right,#4BA9FF,#00E0FF);
+    color:white;
+}
+.chatMes{
+    border: none;
+    border-radius: 0 40px 40px 40px;
+    width:fit-content;
+    padding: 10px;
+    margin: 5px;
+    margin-left: 0;
+    margin-right: 20px;
+}
+.Right{
+    border: none;
+    border-radius: 40px 0 40px 40px;
+    width: fit-content;
+    display: block;
+    padding: 10px;
+    padding-left: 20px;
+    margin: 5px;
+    margin-left: auto;
+}
+.r{
+    padding-left: 20px;
+}
+.eleM,.time{
+    margin: 0;
+}
+.time{
+    text-align: right;
+    font-size: small;
+    padding-right: 10px;
+}
+.formChat{
+    display: grid;
+    grid-template-columns: 85% 15%;
+    margin: 10px;
+    border: none;
+    border-radius: 20px 0 20px 0;
+    background: rgba(0, 255, 251,0.3);
+}
+.formChat input{
+    padding: 7px 10px;
+    border: none;
+    outline: none;
+    font:large system-ui;
+    font-family: inherit;
+    background: transparent;
+    color:#0072dd;
+}
+::placeholder{
+    color:#60b2ff;
+}
+.formChat button{
+    cursor: pointer;
+    margin: 2px;
+    border: none;
+    border-radius: 20px 0 20px 0;
+    margin-right: 2px;
+    font-family: inherit;
+    font-size: large;
+    background:radial-gradient(circle,#00d9ff,#0095ff);
+    color:white;
+    transition: all 0.4s;
+}
+.formChat button:hover{
+    background:radial-gradient(circle,#00d9ff,#00d0ff);
+}
+#boT{
+    visibility: hidden;
+}
+.x{
+    cursor: pointer;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    font-size: xx-large;
+    color:#0066ff;
+    width: fit-content;
+}
+@media screen and (max-width:450px) {
+    body,.userSidebar,.mainChat{
+        background: black;
+        margin: 0;
+    }
+    .chatCont{
+        grid-template-columns: 1fr;
+        width:100%;
+        background: black;
+    }
+    .userSidebar,.mainChat{
+        border-radius: 0;
+        height: 100vh;
+    }
+    .mainChat{
+        height: 95vh;
+    }
+    .usernames{
+        height: 80%;
+    }
+    .showChat{
+        height: 82%;
+    }
+    .chatTop{
+        grid-template-columns: 20% 75% 5%;
+    }
+    .formChat{
+        grid-template-columns: 80% 20%;
+    }
+    .formChat input{
+        color:rgb(0, 255, 234);
+    }
+}
